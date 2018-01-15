@@ -1,0 +1,21 @@
+version: "2"
+services:
+  postgres:
+    image: "cemil82/frontenders-backend:0.1"
+    ports:
+      - 5555:5432
+    volumes:
+      - "frontenders-data:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_PASSWORD: tc
+      POSTGRES_USER: tc
+  node:
+    image: "cemil82/frontenders-web-app"
+    ports:
+      - 5000:3000
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://tc:tc@postgres/postgres 
+volumes:
+  frontenders-data: {}
