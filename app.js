@@ -29,14 +29,14 @@ const angestellter = require('./routes/angestellter');
 app.use('/', angestellter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) { 
+app.use((err, req, res, next) => { 
     res.status(err.status || 500);
     if (Number(err.status) !== 401) {
       console.error('Uncaught platform error', { error: err });
