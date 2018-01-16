@@ -18,9 +18,9 @@ This is an example REST API for angular frontend. It is been designed with docke
 
 ### Prerequisites
 
-environment with node and npm
-install npm
-nmp start
+- environment with node and npm
+- install npm
+- nmp start
 
  
 ## Built With & Deployment
