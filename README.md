@@ -9,6 +9,7 @@ This is an example REST API for angular frontend. It is been designed with docke
 - git clone https://github.com/cemildo/NODE-REST-API.git
 - then cd in the NODE-REST-API and
 - run docker-compose up
+- then you can check http://localhost:5000/api/members
 
 
 ### Alternative
