@@ -1,4 +1,4 @@
-# Project Title
+# REST API
 
 This is an example REST API for angular frontend. It is been designed with docker images so that user can easily run it in local computer.
 
