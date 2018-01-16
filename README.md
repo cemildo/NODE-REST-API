@@ -13,7 +13,7 @@ This is an example REST API for angular frontend. It is been designed with docke
 
 ### Alternative
 
-- If you dont want to use docker, just run "npm start"
+- If you dont want to use docker, just run "npm start", application runs port 3000
 
 
 ### Prerequisites
