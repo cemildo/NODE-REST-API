@@ -1,16 +1,28 @@
 
+import Angestellter from './Angestellter';  
 
-const Angestellter = require('./Angestellter');
-const models = {};
+class Models {
+    constructor(){ 
+        if(! Models.instance){
+            this.instances = {}; 
+            Models.instance = this;
+        } 
+        return Models.instance; 
+    }
 
-const set = (db) => {
-    models.angestellter = new Angestellter.Model(db); 
-};
+    set(database){ 
+        // add here new models
+        this.instances.angestellter = new Angestellter(database); 
+    }
 
-const get = () =>  models;
+    get(instance){
+        if(this.instances[instance]) {
+            return this.instances[instance];
+        } 
+        throw Error('Given model does not exist!');
+    }
+}
 
-
-module.exports = {
-    set,
-    get
-};
+const models = new Models();
+Object.freeze(models);
+export default models;

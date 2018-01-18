@@ -1,6 +1,8 @@
-class Model{
+import Promise from 'bluebird';
 
-    constructor(db){
+export default class Angestellter{
+
+    constructor(db){ 
         this.db = db;
      }
 
@@ -11,28 +13,37 @@ class Model{
             })
             .catch(function (err) {
                 console.log('db error:', err);
-                return next(err);
+                return Promise.reject(err);
             });
     }
 
     getByPersonNr(personNr) { 
-    return this.db.one('select * from angestellter where persnr = $1', personNr)
-        .then(function (data) {
-            return data;
-        })
-        .catch(function (err) {
-        return next(err);
-        });
+        return Promise.all([
+                this.db.any(`select  abte.name as "abtName", abte.*, an.*, abtl.* 
+                from angestellter an 
+                JOIN abteilung abte on an.abtnr = abte.abtnr  
+                JOIN abtleitung abtl on abte.abtnr = abtl.abtnr 
+                where an.persnr = $1`, personNr),
+                this.db.any(`select pz.startzeit as "pzStartZeit", pz.dauer as "pzDauer", pz.*, pr.* from projektzuteilung pz
+                    FULL JOIN projekt pr on pz.projnr = pr.projnr
+                    where pz.persnr = $1`, personNr),
+            ])
+            .then(function ([personal, job]) {  
+                return {personal, job};
+            })
+            .catch(function (err) {
+                return Promise.reject(err);
+            });
     }
      
     createMember(person) {
         return this.db.none('insert into angestellter(name, tel, age, sex)' +
             'values(${name}, ${tel}, ${age}, ${sex})', person)
-          .then(function () {
+          .then(function (data) {
              return data;
           })
           .catch(function (err) {
-            return next(err);
+            return Promise.reject(err);
           });
       }
 
@@ -52,7 +63,7 @@ class Model{
             return true;
           })
           .catch(function (err) {
-            return next(err);
+            return Promise.reject(err);
           });
       }
       
@@ -62,12 +73,10 @@ class Model{
              return result;
           })
           .catch(function (err) {
-            return next(err);
+            return Promise.reject(err);
           });
       }  
 
 }
 
-module.exports = {
-    Model
-};
+ 
