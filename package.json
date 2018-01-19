@@ -8,7 +8,6 @@
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
-    
     "parserOptions": {
       "ecmaVersion": 7,
       "sourceType": "module"
@@ -27,11 +26,12 @@
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.4",
     "debug": "~2.6.3",
-    "express": "~4.15.2", 
+    "express": "~4.15.2",
     "jade": "~1.11.0",
     "morgan": "~1.8.1",
     "pg-promise": "^5.9.7",
-    "serve-favicon": "~2.4.2"
+    "serve-favicon": "~2.4.2",
+    "swagger-ui-express": "^2.0.14"
   },
   "devDependencies": {
     "babel-cli": "^6.9.0",

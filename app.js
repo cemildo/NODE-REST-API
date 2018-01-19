@@ -8,10 +8,21 @@ import config  from './config';
 import angestellter from './routes/angestellter';
 
 
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './swagger.json';
+
+ 
 const app = express();
  
 app.use(config.getDBConfig); 
 app.use('/', angestellter);
+
+// enbale swagger
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/v1', express.Router());
+
+
 // enable all cors requests
 app.use(cors()); 
  
