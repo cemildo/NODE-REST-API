@@ -1,7 +1,7 @@
 import models from '../models';
-import express from 'express'; 
-const router = express.Router(); 
- 
+import express from 'express';
+const router = express.Router();
+
   function getAllMembers(req, res, next) {
     models.get('angestellter').findAll()
       .then(function (data) {
@@ -13,14 +13,14 @@ const router = express.Router();
           });
       })
       .catch(function (err) {
-        return next(err); 
+        return next(err);
       });
   }
-  
-  
+
+
   function getSingleMember(req, res, next) {
     var personNr = parseInt(req.params.id);
-    
+
     models.get('angestellter').getByPersonNr(personNr)
       .then(function (data) {
         res.status(200)
@@ -33,31 +33,32 @@ const router = express.Router();
       .catch(function (err) {
         res.status(404)
           .json({
-            status: 'error', 
+            status: 'error',
             message: err.message
           });
       });
   }
-  
+
   // TODO
   function createMember(req, res, next) {
-    req.body.age = parseInt(req.body.age);
+    console.log('create members', req.body);
+    // req.body.age = parseInt(req.body.age);
     models.get('angestellter').createMember(req.body)
       .then(function () {
         res.status(200)
           .json({
             status: 'success',
-            message: 'Inserted one puppy'
+            message: 'Inserted one person'
           });
       })
       .catch(function (err) {
         return next(err);
       });
   }
-  
+
   // TODO
   function updateMember(req, res, next) {
-    models.get('angestellter').updateMember()
+    models.get('angestellter').updateMember(req.body)
       .then(function () {
         res.status(200)
           .json({
@@ -69,17 +70,17 @@ const router = express.Router();
         return next(err);
       });
   }
-  
+
   // TODO
   function removeMember(req, res, next) {
-    var pupID = parseInt(req.params.id);
-    models.get('angestellter').removeMember()
+    var persNr = parseInt(req.params.id);
+    models.get('angestellter').removeMember(persNr)
       .then(function (result) {
         /* jshint ignore:start */
         res.status(200)
           .json({
             status: 'success',
-            message: `Removed ${result.rowCount} puppy`
+            message: `${result.rowCount} member removed`
           });
         /* jshint ignore:end */
       })
@@ -87,12 +88,12 @@ const router = express.Router();
         return next(err);
       });
   }
-  
-   
+
+
   router.get('/api/members', getAllMembers);
   router.get('/api/members/:id', getSingleMember);
   router.post('/api/members', createMember);
   router.put('/api/members/:id', updateMember);
   router.delete('/api/members/:id', removeMember);
-  
-  module.exports = router; 
+
+  module.exports = router;
